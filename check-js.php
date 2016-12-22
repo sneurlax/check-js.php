@@ -28,9 +28,19 @@ function start_session() {
 start_session();
 
 // Run an AJAX GET request (will only run if js is enabled)
-echo
-'<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script><script type="text/javascript">$(document).ready(function(){ $.get(window.location.href + "?ajax=1"); });</script>';
-  
+echo '
+<script>
+  if (!window.jQuery){
+    var jq = document.createElement("script");
+    jq.type = "text/javascript";
+    jq.src = "http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js";
+    document.getElementsByTagName("head")[0].appendChild(jq);
+  }
+  $(document).ready(function(){
+    $.get(window.location.href + "?ajax=1");
+  });
+</script>';
+
 // check is AJAX GET request was run (ie. check if js is enabled)
 if(isset($_REQUEST['js'])) {
   if ($_REQUEST['js'] == 1){
