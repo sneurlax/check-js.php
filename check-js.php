@@ -57,10 +57,11 @@ if(isset($_SESSION['js'])){
   if(isset($_SESSION['check-js'])) {
     if($_SESSION['check-js'] < 1) {
       header("Refresh: 1");
+    } else {
+      if(isset($_REQUEST['debug'])) {
+        echo "Javascript is not enabled <br>";
+      }
     }
-  }
-  if(isset($_REQUEST['debug'])) {
-    echo "Javascript is not enabled <br>";
   }
 }
 
