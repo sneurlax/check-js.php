@@ -31,8 +31,10 @@ start_session();
 echo
 '<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script><script type="text/javascript">$(document).ready(function(){ $.get(window.location.href + "?ajax=1"); });</script>';
   
+// check is AJAX GET request was run (ie. check if js is enabled)
 if(isset($_REQUEST['js'])) {
   if ($_REQUEST['js'] == 1){
+    $_SESSION['js'] = 1;
   } else {
     session_destroy();
   }
@@ -40,10 +42,14 @@ if(isset($_REQUEST['js'])) {
 
 // If the session variable has not been set, refresh
 if(isset($_SESSION['js'])){
-  echo "Javascript is enabled <br>";
+  isset($_REQUEST['debug']) {
+    echo "Javascript is enabled <br>";
+  }
 } else {
   header("Refresh: 1");
-  echo "Javascript is not enabled <br>";
+  isset($_REQUEST['debug']) {
+    echo "Javascript is not enabled <br>";
+  }
 }
 
 ?>
