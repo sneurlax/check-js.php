@@ -49,7 +49,7 @@ if(isset($_REQUEST['ajax'])) {
 }
 
 // If the session variable has not been set, refresh
-if(isset($_SESSION['js'])){
+if(isset($_SESSION['js'])) {
   if(isset($_REQUEST['debug'])) {
     echo "Javascript is enabled <br>";
   }
