@@ -46,7 +46,7 @@ if(isset($_REQUEST['js'])) {
   if ($_REQUEST['js'] == 1){
     $_SESSION['js'] = 1;
   } else {
-    session_destroy();
+    $_SESSION['js'] = -1;
   }
 }
 
@@ -56,7 +56,9 @@ if(isset($_SESSION['js'])){
     echo "Javascript is enabled <br>";
   }
 } else {
-  header("Refresh: 1");
+  if(!isset($_SESSION['js'])) {
+    header("Refresh: 1");
+  }
   isset($_REQUEST['debug']) {
     echo "Javascript is not enabled <br>";
   }
