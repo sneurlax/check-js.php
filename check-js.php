@@ -27,6 +27,7 @@ function start_session() {
 
 start_session();
 
+// Increment the check-js session variable every time the scripts runs (so we only refresh the page once)
 if(isset($_SESSION['check-js'])) {
   $_SESSION['check-js']++;
 } else {
@@ -35,19 +36,14 @@ if(isset($_SESSION['check-js'])) {
 
 // Run an AJAX GET request (will only run if js is enabled)
 echo '
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script>
-  if (!window.jQuery){
-    var jq = document.createElement("script");
-    jq.type = "text/javascript";
-    jq.src = "http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js";
-    document.getElementsByTagName("head")[0].appendChild(jq);
-  }
   $(document).ready(function(){
-    $.get(window.location.href + "?ajax");
+    $.get(window.location.href + "'.( isset($_REQUEST['debug']) ? '&' : '?' ).'ajax");
   });
 </script>';
 
-// check is AJAX GET request was run (ie. check if js is enabled)
+// Check is AJAX GET request was run (ie. check if js is enabled)
 if(isset($_REQUEST['ajax'])) {
   $_SESSION['js'] = 1;
 }
