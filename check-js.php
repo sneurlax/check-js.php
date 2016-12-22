@@ -14,7 +14,7 @@
 
 // Start a session (if no session already exists.)  Compatible with PHP version 5.4.0 and higher
 function start_session() {
-  if(version_compare(phpversion(), "5.4.0") != -1){
+  if(version_compare(phpversion(), "5.4.0") != -1) {
     if (session_status() == PHP_SESSION_NONE) {
       session_start();
     }
@@ -27,6 +27,12 @@ function start_session() {
 
 start_session();
 
+if(isset($_SESSION['check-js'])) {
+  $_SESSION['check-js']++;
+} else {
+  $_SESSION['check-js'] = 0;
+}
+
 // Run an AJAX GET request (will only run if js is enabled)
 echo '
 <script>
@@ -37,29 +43,27 @@ echo '
     document.getElementsByTagName("head")[0].appendChild(jq);
   }
   $(document).ready(function(){
-    $.get(window.location.href + "?ajax=1");
+    $.get(window.location.href + "?ajax");
   });
 </script>';
 
 // check is AJAX GET request was run (ie. check if js is enabled)
-if(isset($_REQUEST['js'])) {
-  if ($_REQUEST['js'] == 1){
-    $_SESSION['js'] = 1;
-  } else {
-    $_SESSION['js'] = -1;
-  }
+if(isset($_REQUEST['ajax'])) {
+  $_SESSION['js'] = 1;
 }
 
 // If the session variable has not been set, refresh
 if(isset($_SESSION['js'])){
-  isset($_REQUEST['debug']) {
+  if(isset($_REQUEST['debug'])) {
     echo "Javascript is enabled <br>";
   }
 } else {
-  if(!isset($_SESSION['js'])) {
-    header("Refresh: 1");
+  if(isset($_SESSION['check-js'])) {
+    if($_SESSION['check-js'] < 1) {
+      header("Refresh: 1");
+    }
   }
-  isset($_REQUEST['debug']) {
+  if(isset($_REQUEST['debug'])) {
     echo "Javascript is not enabled <br>";
   }
 }
